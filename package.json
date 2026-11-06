@@ -1,0 +1,9 @@
+{
+  "name": "hari-documentation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hari Documentation website for Netlify (static site + serverless API)",
+  "dependencies": {
+    "@netlify/blobs": "^11.1.7"
+  }
+}

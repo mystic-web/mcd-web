@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex"><title>Admin – Hari Documentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:Nunito,sans-serif;background:#f6f7fb;color:#222}.flag{height:6px;background:#101621}.adm{max-width:900px;margin:24px auto;padding:0 16px}
+h2.sec{font-size:30px;margin:10px 0 18px}.adm h3{margin:22px 0 6px;color:#6F55FF}label{font-weight:700;font-size:14px;display:block;margin-top:10px}
+input,textarea,select{width:100%;padding:11px;border:1px solid #cfd3e0;border-radius:8px;font:inherit;background:#fff}textarea{min-height:110px;font-family:Consolas,monospace;font-size:14px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.btn{background:#101621;color:#fff;border:0;padding:12px 24px;border-radius:10px;font:700 16px Nunito;cursor:pointer;margin-top:14px}
+.err{color:#c0392b;min-height:1em}.ok{color:#168a45;font-weight:700}.scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;background:#fff}th,td{border:1px solid #e3e6ef;padding:9px 12px;text-align:left}th{background:#101621;color:#fff}</style></head><body>
+<div class="flag"></div>
+<div class="adm" id="login"><h2 class="sec">Admin login</h2><form id="lf"><label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password"><button class="btn" type="submit">Login</button><div class="err" id="le"></div></form></div>
+<div class="adm" id="ed" hidden><h2 class="sec">Edit website</h2><p style="color:var(--mute)">One item per line. Fields are separated by <b>|</b>. Updates starting with <b>NEW:</b> show a NEW tag.</p>
+<div class="row"><div><label>Business name</label><input id="name"></div><div><label>Hindi name</label><input id="nameHi"></div>
+<div><label>Phone (display)</label><input id="phone"></div><div><label>WhatsApp number (91XXXXXXXXXX)</label><input id="whatsapp"></div></div>
+<label>Tagline</label><input id="tagline"><label>Managed-by line</label><input id="managed"><label>Address</label><input id="address">
+<h3>Updates</h3><textarea id="updates"></textarea>
+<h3>Services (title | description)</h3><textarea id="services"></textarea>
+<h3>Banner slides (heading | subtext | item1; item2 | WhatsApp message)</h3><textarea id="slides"></textarea>
+<h3>Steps (title | text)</h3><textarea id="steps"></textarea>
+<h3>Documents needed (service | documents)</h3><textarea id="docs"></textarea>
+<h3>FAQs (question | answer)</h3><textarea id="faqs"></textarea>
+<p><button class="btn" id="save">Save changes</button> <span class="ok" id="sv"></span></p>
+<h3>Enquiries received</h3><div class="scroll"><table id="enq"></table></div></div>
+<script>
+let tok='',D;const $=i=>document.getElementById(i);
+const L=t=>t.split('\n').map(x=>x.trim()).filter(Boolean);
+const P=(t,n)=>L(t).map(l=>{const a=l.split('|').map(x=>x.trim());while(a.length<n)a.push('');return a});
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+$('lf').onsubmit=async e=>{e.preventDefault();const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:$('pw').value})}),j=await r.json();
+ if(!r.ok){$('le').textContent=j.error;return}tok=j.token;$('login').hidden=true;$('ed').hidden=false;load()};
+async function load(){D=await (await fetch('/api/data')).json();
+ ['name','nameHi','phone','whatsapp','tagline','managed','address'].forEach(k=>$(k).value=D.site[k]||'');
+ $('updates').value=D.updates.map(u=>(u.new?'NEW: ':'')+u.text).join('\n');
+ $('services').value=D.services.map(s=>s.title+' | '+s.desc).join('\n');
+ $('slides').value=D.slides.map(s=>[s.h,s.p,s.items.join('; '),s.msg].join(' | ')).join('\n');
+ $('steps').value=D.steps.map(s=>s.t+' | '+s.d).join('\n');
+ $('docs').value=D.docs.map(s=>s.s+' | '+s.d).join('\n');
+ $('faqs').value=D.faqs.map(s=>s.q+' | '+s.a).join('\n');
+ const r=await fetch('/api/enquiries',{headers:{Authorization:'Bearer '+tok}}),q=await r.json();
+ $('enq').innerHTML='<tr><th>Time</th><th>Name</th><th>Mobile</th><th>Service</th><th>Message</th></tr>'+(q.length?q.map(x=>`<tr><td>${esc(new Date(x.time).toLocaleString())}</td><td>${esc(x.name)}</td><td><a href="tel:+91${esc(x.mobile)}">${esc(x.mobile)}</a></td><td>${esc(x.service)}</td><td>${esc(x.message)}</td></tr>`).join(''):'<tr><td colspan="5">No enquiries yet.</td></tr>')}
+$('save').onclick=async()=>{const site={};['name','nameHi','phone','whatsapp','tagline','managed','address'].forEach(k=>site[k]=$(k).value.trim());
+ const d={site,
+  updates:L($('updates').value).map(l=>/^NEW:/i.test(l)?{text:l.replace(/^NEW:\s*/i,''),new:true}:{text:l,new:false}),
+  services:P($('services').value,2).map(a=>({title:a[0],desc:a[1]})),
+  slides:P($('slides').value,4).map(a=>({h:a[0],p:a[1],items:a[2].split(';').map(x=>x.trim()).filter(Boolean),msg:a[3]})),
+  steps:P($('steps').value,2).map(a=>({t:a[0],d:a[1]})),docs:P($('docs').value,2).map(a=>({s:a[0],d:a[1]})),faqs:P($('faqs').value,2).map(a=>({q:a[0],a:a[1]}))};
+ const r=await fetch('/api/data',{method:'PUT',headers:{'Content-Type':'application/json',Authorization:'Bearer '+tok},body:JSON.stringify(d)});
+ $('sv').textContent=r.ok?'Saved. Website updated.':'Save failed. Login again.'};
+</script></body></html>

@@ -1,0 +1,31 @@
+{
+ "site":{"name":"Hari Documentation","nameHi":"हरि डॉक्यूमेंटेशन","tagline":"Property Documentation Services · Janak Puri, New Delhi","managed":"Managed by Retd. Sub-Registrar, Delhi Govt.","phone":"98732 48111","whatsapp":"919873248111","address":"7A/28, Near Suneja Tower-I, District Centre, Janak Puri, New Delhi – 110058"},
+ "updates":[{"text":"Stamp paper up to ₹1,00,000 – same day delivery","new":true},{"text":"Registered Rent Agreement service available","new":true},{"text":"Survivor Member Certificate documentation","new":true},{"text":"Sale Deed and Gift Deed drafting","new":false},{"text":"GPA, SPA and Will documents","new":false},{"text":"Call 98732 48111 before you visit the office","new":false}],
+ "services":[
+  {"title":"Sale Deed","desc":"Transfer of ownership of a property from seller to buyer, drafted for registration."},
+  {"title":"Gift Deed","desc":"Transfer of property as a gift to a family member or other person."},
+  {"title":"GPA, SPA, Rent Agreement, Will etc.","desc":"General and special power of attorney, rent agreements, wills and similar documents."},
+  {"title":"Stamp Paper up to ₹1,00,000","desc":"Stamp paper of the value you need, with same-day delivery."},
+  {"title":"Survivor Member Certificate","desc":"Documentation for legal heirs and surviving family members."},
+  {"title":"Registered Rent Agreement","desc":"Rent agreement registered as per rules for stronger legal standing."}],
+ "slides":[
+  {"h":"Sale Deed, Gift Deed & Property Documents","p":"Prepared with guidance of a retired Delhi Govt. Sub-Registrar.","items":["Sale Deed","Gift Deed","GPA, SPA, Will","Rent Agreement"],"msg":"Hello Hari Documentation, I need help with a property document."},
+  {"h":"Stamp Paper up to ₹1,00,000","p":"Same day delivery. Call before you visit.","items":["Same-day delivery","Values up to ₹1,00,000","Correct drafting"],"msg":"Hello, I need stamp paper."},
+  {"h":"Registered Rent Agreement & Survivor Certificate","p":"Simple steps, clear guidance, no confusion.","items":["Registered Rent Agreement","Survivor Member Certificate","Will and GPA"],"msg":"Hello, I need a registered rent agreement."}],
+ "steps":[
+  {"t":"Tell us what you need.","d":"Call or WhatsApp us with a short description."},
+  {"t":"Share your documents.","d":"We tell you exactly which papers to bring."},
+  {"t":"We prepare the draft.","d":"Stamp paper is arranged and the document drafted correctly."},
+  {"t":"Review and sign.","d":"You check every detail before anything is signed or registered."}],
+ "docs":[
+  {"s":"Sale Deed","d":"Seller & buyer ID and address proof, property papers, photographs"},
+  {"s":"Gift Deed","d":"Donor & receiver ID proof, ownership papers, relationship details"},
+  {"s":"Rent Agreement","d":"Owner & tenant ID proof, property address, rent and period"},
+  {"s":"Survivor Member Certificate","d":"Death certificate, family details, ID proof of applicants"}],
+ "faqs":[
+  {"q":"How fast can I get stamp paper?","a":"Stamp paper up to ₹1,00,000 is available with same-day delivery."},
+  {"q":"Do you prepare rent agreements?","a":"Yes, both ordinary and registered rent agreements."},
+  {"q":"Can you help with a will or power of attorney?","a":"Yes. We handle GPA, SPA and will documents."},
+  {"q":"Where is the office?","a":"7A/28, Near Suneja Tower-I, District Centre, Janak Puri, New Delhi – 110058."},
+  {"q":"Is this an official government office?","a":"No. It is a private service managed by a retired Delhi Govt. Sub-Registrar."}]
+}
